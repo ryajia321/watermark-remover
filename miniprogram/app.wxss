@@ -1,0 +1,85 @@
+/** 全局样式 **/
+page {
+  background-color: #f5f6f8;
+  font-size: 28rpx;
+  color: #333333;
+  font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+.container {
+  padding: 24rpx;
+  padding-bottom: 48rpx;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  margin-bottom: 20rpx;
+}
+
+.row {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 20rpx;
+}
+
+.row button {
+  flex: 1;
+}
+
+.btn-primary {
+  background: #1296db;
+  color: #ffffff;
+  border-radius: 14rpx;
+  font-size: 30rpx;
+  margin-top: 24rpx;
+}
+
+.btn-primary::after {
+  border: none;
+}
+
+.btn-ghost {
+  background: #f0f4f8;
+  color: #1296db;
+  border-radius: 14rpx;
+  font-size: 28rpx;
+}
+
+.btn-ghost::after {
+  border: none;
+}
+
+.btn-ghost.danger {
+  color: #e64340;
+  background: #fef0f0;
+}
+
+.hint {
+  font-size: 26rpx;
+  color: #1296db;
+  margin-top: 16rpx;
+}
+
+.tip {
+  font-size: 24rpx;
+  color: #999999;
+  text-align: center;
+  padding: 12rpx 32rpx;
+  line-height: 1.6;
+}
+
+.empty {
+  text-align: center;
+  color: #999999;
+  padding: 60rpx 0;
+  font-size: 28rpx;
+}

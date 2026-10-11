@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>视频去水印 - 免费在线解析</title>
+<style>
+  :root{
+    --bg:#0f1222; --card:#181c33; --card2:#1f2440; --text:#eef0ff; --muted:#9aa0c3;
+    --accent:#6c7bff; --accent2:#22d3ee; --danger:#ff6b81; --ok:#34d399;
+    --radius:16px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  body{margin:0; font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%, #232a55 0%, var(--bg) 55%) fixed, var(--bg);
+    color:var(--text); min-height:100vh;}
+  .wrap{max-width:720px; margin:0 auto; padding:24px 16px 64px;}
+  header.top{display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;}
+  .logo{display:flex; align-items:center; gap:10px; font-size:20px; font-weight:700;}
+  .logo .mark{width:38px; height:38px; border-radius:12px; display:grid; place-items:center; font-size:20px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2)); box-shadow:0 6px 20px rgba(108,123,255,.35);}
+  .iconbtn{background:var(--card); border:1px solid #2a3052; color:var(--text); border-radius:12px;
+    padding:8px 12px; font-size:14px; cursor:pointer;}
+  .iconbtn:active{transform:scale(.97);}
+  .hero{text-align:center; margin:26px 0 20px;}
+  .hero h1{font-size:26px; margin:0 0 8px; letter-spacing:1px;}
+  .hero p{color:var(--muted); font-size:14px; margin:0;}
+  .card{background:linear-gradient(180deg,var(--card),#141833); border:1px solid #262c52; border-radius:var(--radius);
+    padding:18px; margin-top:16px; box-shadow:0 10px 30px rgba(0,0,0,.25);}
+  .card h3{margin:0 0 12px; font-size:15px; color:#cfd4ff;}
+  textarea{width:100%; min-height:96px; resize:vertical; background:#0d1024; border:1px solid #2a3052; color:var(--text);
+    border-radius:12px; padding:12px; font-size:14px; line-height:1.6; outline:none;}
+  textarea:focus{border-color:var(--accent);}
+  .row{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;}
+  .btn{flex:1; min-width:130px; border:none; border-radius:12px; padding:13px; font-size:15px; font-weight:700;
+    cursor:pointer; color:#fff; background:linear-gradient(135deg,var(--accent),var(--accent2));
+    box-shadow:0 6px 18px rgba(108,123,255,.35);}
+  .btn:active{transform:scale(.98);}
+  .btn.ghost{background:var(--card2); border:1px solid #2a3052; box-shadow:none; font-weight:500;}
+  .btn:disabled{opacity:.6; cursor:wait;}
+  .plat-chip{display:inline-flex; align-items:center; gap:6px; background:#0d1024; border:1px solid #2a3052;
+    border-radius:999px; padding:6px 12px; font-size:13px; color:var(--muted); margin-top:10px;}
+  .plat-chip b{color:var(--text);}
+  .result{display:none;}
+  .result.show{display:block; animation:fadeUp .3s ease;}
+  @keyframes fadeUp{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
+  .r-head{display:flex; gap:12px; align-items:center;}
+  .r-cover{width:76px; height:76px; border-radius:12px; object-fit:cover; background:#0d1024; flex:none;}
+  .r-title{font-size:15px; font-weight:600; line-height:1.5; display:-webkit-box; -webkit-line-clamp:2;
+    -webkit-box-orient:vertical; overflow:hidden;}
+  .r-meta{font-size:12px; color:var(--muted); margin-top:6px;}
+  .badge{display:inline-block; background:rgba(108,123,255,.15); color:#b9c1ff; border:1px solid rgba(108,123,255,.4);
+    border-radius:999px; padding:2px 10px; font-size:12px; margin-right:6px;}
+  video{width:100%; border-radius:12px; margin-top:14px; background:#000; max-height:420px;}
+  .error{display:none; background:rgba(255,107,129,.1); border:1px solid rgba(255,107,129,.4); color:#ffb3c0;
+    border-radius:12px; padding:12px; font-size:14px; margin-top:12px; line-height:1.6;}
+  .error.show{display:block;}
+  .loading{display:none; text-align:center; padding:18px; color:var(--muted); font-size:14px;}
+  .loading.show{display:block;}
+  .spin{display:inline-block; width:18px; height:18px; border:2px solid #3a4170; border-top-color:var(--accent2);
+    border-radius:50%; animation:sp 0.8s linear infinite; vertical-align:-4px; margin-right:8px;}
+  @keyframes sp{to{transform:rotate(360deg);}}
+  .plats{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+  .plat{background:#0d1024; border:1px solid #262c52; border-radius:12px; padding:14px 8px; text-align:center; font-size:13px;}
+  .plat .e{font-size:24px; display:block; margin-bottom:6px;}
+  .plat small{display:block; color:var(--muted); font-size:11px; margin-top:4px;}
+  .hist-item{display:flex; align-items:center; gap:10px; padding:10px 4px; border-bottom:1px solid #232848; font-size:14px;}
+  .hist-item:last-child{border-bottom:none;}
+  .hist-item .t{flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .hist-item .d{color:var(--muted); font-size:12px; flex:none;}
+  .hist-item button{background:none; border:none; color:var(--muted); font-size:16px; cursor:pointer; flex:none;}
+  .empty{color:var(--muted); font-size:13px; text-align:center; padding:14px;}
+  footer{margin-top:28px; text-align:center; color:var(--muted); font-size:12px; line-height:1.8;}
+  /* 设置弹窗 */
+  .modal{position:fixed; inset:0; background:rgba(5,6,15,.7); display:none; place-items:center; padding:20px; z-index:50;}
+  .modal.show{display:grid;}
+  .modal .box{background:var(--card); border:1px solid #2a3052; border-radius:18px; padding:22px; width:100%; max-width:440px;}
+  .modal h3{margin:0 0 10px;}
+  .modal p{font-size:13px; color:var(--muted); line-height:1.7;}
+  .modal input{width:100%; background:#0d1024; border:1px solid #2a3052; color:var(--text); border-radius:10px;
+    padding:11px; font-size:14px; outline:none; margin:8px 0 4px;}
+  .modal code{background:#0d1024; padding:2px 6px; border-radius:6px; font-size:12px; color:var(--accent2);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="logo"><span class="mark">💧</span>视频去水印</div>
+    <button class="iconbtn" onclick="openSettings()">⚙️ 接口设置</button>
+  </header>
+
+  <div class="hero">
+    <h1>粘贴链接，一键去水印</h1>
+    <p>支持抖音 / 快手 / 小红书 / 哔哩哔哩 / 微博 / 微信视频号</p>
+  </div>
+
+  <div class="card">
+    <textarea id="input" placeholder="粘贴视频分享链接或口令，例如：&#10;https://v.douyin.com/xxxx/&#10;（可直接粘贴整段分享口令，自动提取链接）"></textarea>
+    <div class="row">
+      <button class="btn ghost" onclick="pasteFromClipboard()">📋 一键粘贴</button>
+      <button class="btn" id="parseBtn" onclick="doParse()">✨ 去水印解析</button>
+    </div>
+    <div><span class="plat-chip" id="platChip">🔍 粘贴链接后自动识别平台</span></div>
+    <div class="loading" id="loading"><span class="spin"></span>正在解析，请稍候…</div>
+    <div class="error" id="error"></div>
+  </div>
+
+  <div class="card result" id="result">
+    <h3>✅ 解析成功</h3>
+    <div class="r-head">
+      <img class="r-cover" id="rCover" alt="封面">
+      <div>
+        <div class="r-title" id="rTitle"></div>
+        <div class="r-meta"><span class="badge" id="rPlat"></span><span id="rAuthor"></span><span id="rDur"></span></div>
+      </div>
+    </div>
+    <video id="rVideo" controls playsinline preload="metadata"></video>
+    <div class="row">
+      <button class="btn" onclick="downloadVideo()">⬇️ 下载无水印视频</button>
+      <button class="btn ghost" onclick="copyLink()">🔗 复制链接</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📺 支持平台</h3>
+    <div class="plats" id="plats"></div>
+  </div>
+
+  <div class="card">
+    <h3>🕘 解析历史 <span style="float:right"><button class="iconbtn" style="padding:4px 10px;font-size:12px" onclick="clearHistory()">清空</button></span></h3>
+    <div id="history"><div class="empty">暂无记录</div></div>
+  </div>
+
+  <footer>
+    仅供学习交流，请勿搬运他人作品用于商用。<br>
+    解析能力取决于各平台反爬策略，如某平台失效请等待后端更新。
+  </footer>
+</div>
+
+<div class="modal" id="settingsModal">
+  <div class="box">
+    <h3>⚙️ 后端接口设置</h3>
+    <p>解析能力由后端服务提供（见项目 <code>backend/</code> 目录，部署后填入地址）。<br>地址格式如：<code>https://api.example.com</code>（末尾不要加斜杠）</p>
+    <input id="apiBase" placeholder="https://你的后端域名">
+    <div class="row">
+      <button class="btn ghost" onclick="closeSettings()">取消</button>
+      <button class="btn" onclick="saveSettings()">💾 保存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const PLATFORMS = [
+  {id:'douyin',     name:'抖音',     e:'🎵', patterns:[/douyin\.com/,/v\.douyin\.com/,/iesdouyin/]},
+  {id:'kuaishou',   name:'快手',     e:'⚡', patterns:[/kuaishou\.com/,/v\.kuaishou/,/kuaishou\.cn/]},
+  {id:'xiaohongshu',name:'小红书',   e:'📕', patterns:[/xiaohongshu\.com/,/xhslink\.com/]},
+  {id:'bilibili',   name:'哔哩哔哩', e:'📺', patterns:[/bilibili\.com/,/b23\.tv/]},
+  {id:'weibo',      name:'微博',     e:'🐦', patterns:[/weibo\.com/,/weibo\.cn/]},
+  {id:'wechat',     name:'视频号',   e:'💬', patterns:[/channels\.weixin/,/weixin\.qq\.com/]},
+];
+let lastResult = null;
+
+const $ = id => document.getElementById(id);
+const apiBase = () => (localStorage.getItem('wmr_api_base') || '').replace(/\/+$/, '');
+
+function detectPlatform(text){
+  for (const p of PLATFORMS) if (p.patterns.some(re => re.test(text))) return p;
+  return null;
+}
+function extractUrl(text){
+  const m = text.match(/https?:\/\/[^\s"'<>]+/);
+  return m ? m[0].replace(/[.,;!?)\]]+$/, '') : null;
+}
+
+$('input').addEventListener('input', e => {
+  const p = detectPlatform(e.target.value);
+  $('platChip').innerHTML = p ? `✅ 识别到平台：<b>${p.e} ${p.name}</b>` : '🔍 粘贴链接后自动识别平台';
+});
+
+async function pasteFromClipboard(){
+  try {
+    const t = await navigator.clipboard.readText();
+    if (t) { $('input').value = t; $('input').dispatchEvent(new Event('input')); toast('已粘贴'); }
+    else toast('剪贴板是空的');
+  } catch(e){ toast('无法读取剪贴板，请手动粘贴'); }
+}
+
+function toast(msg){
+  const d = document.createElement('div');
+  d.textContent = msg;
+  d.style.cssText = 'position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#262c52;color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.4);';
+  document.body.appendChild(d); setTimeout(()=>d.remove(), 2200);
+}
+
+function showError(msg){ const e=$('error'); e.textContent='⚠️ '+msg; e.classList.add('show'); }
+function hideError(){ $('error').classList.remove('show'); }
+
+async function doParse(){
+  hideError();
+  const base = apiBase();
+  if (!base) { openSettings(); toast('请先配置后端接口地址'); return; }
+  const raw = $('input').value.trim();
+  if (!raw) { toast('请先粘贴视频分享链接'); return; }
+  const url = extractUrl(raw) || raw;
+  const btn = $('parseBtn'); btn.disabled = true; btn.textContent = '解析中…';
+  $('loading').classList.add('show'); $('result').classList.remove('show');
+  try {
+    const resp = await fetch(base + '/api/parse', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({url})
+    });
+    const data = await resp.json();
+    if (data.ok) { renderResult(data); pushHistory(data); }
+    else showError(data.error || '解析失败，请换个链接试试');
+  } catch(e){
+    showError('请求后端失败：' + e.message + '。请检查接口地址是否正确、后端是否已部署、域名是否在小程序/浏览器白名单。');
+  } finally {
+    btn.disabled = false; btn.textContent = '✨ 去水印解析';
+    $('loading').classList.remove('show');
+  }
+}
+
+function fmtDur(s){
+  if (!s && s !== 0) return '';
+  s = Math.round(s); return ` · ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+}
+
+function renderResult(d){
+  lastResult = d;
+  const p = PLATFORMS.find(x => x.id === d.platform);
+  $('rCover').src = d.cover || '';
+  $('rTitle').textContent = d.title || '（无标题）';
+  $('rPlat').textContent = (p ? p.e+' ' : '') + (d.platform_name || d.platform || '');
+  $('rAuthor').textContent = d.author ? '👤 ' + d.author : '';
+  $('rDur').textContent = fmtDur(d.duration);
+  const v = $('rVideo'); v.src = d.video_url; v.load();
+  $('result').classList.add('show');
+  $('result').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+async function downloadVideo(){
+  if (!lastResult) return;
+  toast('开始下载…');
+  try {
+    const resp = await fetch(lastResult.video_url);
+    const blob = await resp.blob();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = (lastResult.title || 'video').replace(/[\\/:*?"<>|]/g,'_').slice(0,40) + '.mp4';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 5000);
+  } catch(e){
+    window.open(lastResult.video_url, '_blank');
+    toast('直接下载被拦截，已在新窗口打开，长按视频可保存');
+  }
+}
+
+async function copyLink(){
+  if (!lastResult) return;
+  try { await navigator.clipboard.writeText(lastResult.video_url); toast('无水印链接已复制'); }
+  catch(e){ toast('复制失败，请手动长按复制'); }
+}
+
+/* 历史记录 */
+function getHistory(){ try { return JSON.parse(localStorage.getItem('wmr_history') || '[]'); } catch(e){ return []; } }
+function pushHistory(d){
+  const h = getHistory();
+  h.unshift({title:d.title, platform_name:d.platform_name, video_url:d.video_url, cover:d.cover,
+             author:d.author, duration:d.duration, platform:d.platform, ts:Date.now()});
+  localStorage.setItem('wmr_history', JSON.stringify(h.slice(0,20)));
+  renderHistory();
+}
+function renderHistory(){
+  const h = getHistory(), box = $('history');
+  if (!h.length) { box.innerHTML = '<div class="empty">暂无记录</div>'; return; }
+  box.innerHTML = h.map((x,i)=>`
+    <div class="hist-item">
+      <div class="t" onclick='replay(${i})' style="cursor:pointer">🎬 ${escapeHtml(x.title||'（无标题）')}</div>
+      <div class="d">${x.platform_name||''} · ${new Date(x.ts).toLocaleString('zh-CN',{hour12:false}).slice(5)}</div>
+      <button onclick="delHistory(${i})" title="删除">✕</button>
+    </div>`).join('');
+}
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function replay(i){ const x = getHistory()[i]; if (x){ renderResult(x); lastResult = x; } }
+function delHistory(i){ const h=getHistory(); h.splice(i,1); localStorage.setItem('wmr_history', JSON.stringify(h)); renderHistory(); }
+function clearHistory(){ localStorage.removeItem('wmr_history'); renderHistory(); }
+
+/* 设置 */
+function openSettings(){ $('apiBase').value = apiBase(); $('settingsModal').classList.add('show'); }
+function closeSettings(){ $('settingsModal').classList.remove('show'); }
+function saveSettings(){
+  const v = $('apiBase').value.trim().replace(/\/+$/,'');
+  if (!v) { toast('请输入接口地址'); return; }
+  localStorage.setItem('wmr_api_base', v);
+  closeSettings(); toast('已保存'); loadPlatforms();
+}
+
+/* 平台列表 */
+async function loadPlatforms(){
+  const box = $('plats');
+  const fallback = () => { box.innerHTML = PLATFORMS.map(p=>`<div class="plat"><span class="e">${p.e}</span>${p.name}<small>支持</small></div>`).join(''); };
+  const base = apiBase();
+  if (!base) { fallback(); return; }
+  try {
+    const r = await fetch(base + '/api/platforms'); const d = await r.json();
+    const map = {}; (d.platforms||[]).forEach(p=>map[p.id]=p);
+    box.innerHTML = PLATFORMS.map(p=>{
+      const s = map[p.id];
+      const ok = !s || s.status === 'ok';
+      return `<div class="plat"><span class="e">${p.e}</span>${p.name}<small>${ok?'支持':'受限'}</small></div>`;
+    }).join('');
+  } catch(e){ fallback(); }
+}
+
+renderHistory();
+loadPlatforms();
+</script>
+</body>
+</html>

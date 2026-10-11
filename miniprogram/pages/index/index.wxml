@@ -1,0 +1,50 @@
+<view class="container">
+  <!-- 链接输入卡片 -->
+  <view class="card">
+    <view class="card-title">视频链接</view>
+    <textarea
+      class="url-input"
+      placeholder="粘贴抖音 / 快手 / 小红书 / B站 / 微博等视频分享链接"
+      placeholder-class="ph"
+      value="{{inputUrl}}"
+      bindinput="onInput"
+      auto-height
+      maxlength="2000"
+    />
+    <view class="row">
+      <button class="btn-ghost" bindtap="onPaste">一键粘贴</button>
+      <button class="btn-ghost" bindtap="onClear">清空</button>
+    </view>
+    <view class="hint" wx:if="{{platformHint}}">已识别：{{platformHint}}</view>
+    <button class="btn-primary" bindtap="onParse" loading="{{loading}}" disabled="{{loading}}">
+      {{loading ? '解析中...' : '去水印解析'}}
+    </button>
+  </view>
+
+  <!-- 解析结果卡片 -->
+  <view class="card" wx:if="{{result}}">
+    <view class="card-title">解析结果</view>
+    <video
+      class="preview"
+      src="{{result.video_url}}"
+      poster="{{result.cover}}"
+      controls
+      show-progress
+      object-fit="contain"
+    ></video>
+    <view class="meta">
+      <text class="meta-title">{{result.title || '未命名视频'}}</text>
+      <text class="meta-sub" wx:if="{{result.author}}">作者：{{result.author}}</text>
+      <text class="meta-sub" wx:if="{{result.platform_name}}">平台：{{result.platform_name}}</text>
+    </view>
+    <view class="row">
+      <button class="btn-primary btn-half" bindtap="onSaveVideo">保存到相册</button>
+      <button class="btn-ghost" bindtap="onCopyLink">复制无水印链接</button>
+    </view>
+  </view>
+
+  <view class="tip">解析失败？请确认链接完整有效，或到「设置」页检查后端接口地址是否正确。</view>
+
+  <!-- Banner 广告：需在 app.js 的 adConfig.bannerId 填入广告位 ID（并开通流量主），否则不显示 -->
+  <ad wx:if="{{bannerAdId}}" unit-id="{{bannerAdId}}" binderror="onAdError"></ad>
+</view>

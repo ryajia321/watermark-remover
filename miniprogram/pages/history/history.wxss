@@ -1,0 +1,43 @@
+/* 历史页样式 */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.cover {
+  width: 120rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  background: #eeeeee;
+  flex-shrink: 0;
+}
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+  overflow: hidden;
+}
+
+.title {
+  font-size: 28rpx;
+  font-weight: 500;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.sub {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.arrow {
+  font-size: 44rpx;
+  color: #cccccc;
+  flex-shrink: 0;
+}
